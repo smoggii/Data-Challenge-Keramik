@@ -1,85 +1,57 @@
-# Roman Pottery Classification
+Roman Pottery Classification (SVG Vector Version)
+Automated classification system for Roman pottery fragments based on vector profile cross-sections. This tool matches archaeological test samples against reference drawings from literature by analyzing SVG path data directly.
 
-Automated classification system for Roman pottery fragments based on profile cross-sections. This tool helps archaeologists identify pottery types by comparing test samples against reference drawings from archaeological literature.
+Overview
+The system has been updated to work directly with vector data, eliminating the need for image preprocessing or browser-based conversion. It operates in two main phases:
 
-## Overview
+Feature Extraction: Parses SVG paths to extract mathematical descriptors including wall thickness, symmetry, and Fourier components.
 
-The system works in three steps:
-1. **Preprocess reference images** - Extract and standardize pottery profiles from literature
-2. **Convert test data** - Process SVG files of pottery fragments  
-3. **Classify** - Match test samples against references using computer vision features
+Classification: Matches test samples against a reference database using weighted similarity scores.
 
-## Installation
-```bash
-# Create conda environment
+Installation
+1. Create Environment
+
+Bash
+# Create and activate conda environment
 conda create -n keramik python=3.11
 conda activate keramik
+2. Install Dependencies
 
-# Install dependencies
-pip install Pillow scikit-image scipy numpy selenium
-```
+The vector-based version requires only mathematical and scientific libraries:
 
-## Usage
+Bash
+pip install numpy scipy
+Note: Selenium and Chrome are not required for this version.
 
-### 1. Preprocess Reference Images
-```bash
-python literatur_preprocessing.py
-```
-- Extracts left portion (cross-section only)
-- Crops top section (rim/lip area)
-- Fills contours to create black silhouettes
+Usage
+The system is centralized in the advanced classifier script. Run it from your terminal:
 
-### 2. Convert SVG Test Images
-```bash
-python svg_to_png.py
-```
-- Converts SVG files to PNG using Chrome/Selenium
-- Removes legends and labels
-- Extracts pottery profile section
+Bash
+python keramik_svg_classifier_newfeatures.py
+Input: Provide the paths to your reference folder (e.g., images_typentafel) and test folder (e.g., svg_files) when prompted.
 
-### 3. Classify Test Images
-```bash
-python keramik_classifier.py
-```
-- Extracts features (HOG, Hu Moments, contours, histograms)
-- Compares against all references
-- Outputs top-5 matches with similarity scores
-- Saves results to CSV
+Matching: The system compares geometric profiles and displays the top-K matches with similarity scores.
 
-## How It Works
+Export: Results are automatically saved to a CSV file in your output directory.
 
-The classifier uses multiple computer vision features:
-- **HOG (Histogram of Oriented Gradients)**: Captures edge orientations and shape
-- **Hu Moments**: Scale/rotation invariant shape descriptors
-- **Contour Properties**: Height, width, aspect ratio
-- **Pixel Histograms**: Intensity distribution
+How It Works
+The classifier utilizes high-precision vector features specifically designed for archaeological pottery analysis:
 
-Features are weighted and combined to produce a similarity score (0-1) between test and reference images.
+Radial Profile & Symmetry: Analyzes the vessel as a rotational body to determine axial symmetry and radial distribution.
 
-## Output
+Wall Thickness Analysis: Estimates the thickness of the fragment across different height segments.
 
-Results are saved as CSV with columns:
-- Test image filename
-- Top 5 matching classes
-- Similarity scores for each match
+Typological Zone Analysis: Specifically examines the rim (top), belly (middle), and base (bottom) of the profile.
 
-## Requirements
+Fourier Descriptors: Provides rotation and scale-invariant shape descriptors for global form matching.
 
-- Python 3.11+
-- Chrome browser (for SVG conversion)
-- Conda (recommended)
+Curvature & Complexity: Measures the "smoothness" versus "ornamentation" (tortuosity) of the vessel's contour.
 
-## Project Structure
-```
-├── literatur_preprocessing.py  # Reference image preprocessing
-├── svg_to_png.py              # SVG to PNG converter
-├── keramik_classifier.py      # Main classification system
-└── README.md
-```
+Output
+Results are saved as a CSV file with a timestamp (e.g., svg_classification_results_20260201.csv):
 
-## Notes
+Test_SVG: The filename of the analyzed fragment.
 
-- Works with limited training data (one-shot learning)
-- Designed for fragmentary pottery with rim sections
-- Best results when reference and test images are similarly processed
+Match_X_Class: The name of the matching reference type.
 
+Match_X_Similarity: Confidence score (0 to 1) based on weighted features.
