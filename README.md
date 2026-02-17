@@ -39,7 +39,7 @@ pip install numpy scipy scikit-learn pandas matplotlib seaborn shapely
 
 ```
 projekt/
-├── referenzen/          # SVG-Dateien vollständiger Gefäße
+├── referenzen/          # SVG-Dateien vollständiger Gefäße aus dem ordner svg_files
 │   ├── Drag.33.svg
 │   ├── NB15.svg
 │   └── Lud.SSa.svg
@@ -47,13 +47,13 @@ projekt/
 │   ├── frag_001.svg
 │   ├── frag_002.svg
 │   └── ...
-└── output/              # Wird automatisch erstellt
+└── output/              # Dateiordner für die KLassifizierungsergebnisse
 ```
 
 ### 2. Skript ausführen
 
 ```bash
-python keramik_FINAL_v17_KC.py
+python keramik_svg_classifier_final.py
 ```
 
 Interaktive Eingaben:
@@ -63,15 +63,15 @@ Test-Ordner:      testdaten
 Output-Ordner:    output
 
 Modus:
-  1 = Klassifizierung (nur CSV + Konfusionsmatrix)
-  2 = Klassifizierung + Top-K PDFs (1 PDF pro Fragment)
-  3 = Batch-Visualisierung  (1 Fragment vs ALLE Referenzen)
+  1 = Klassifizierung aller Fragmnete (nur Ergebnis-CSV + Konfusionsmatrix)
+  2 = Klassifizierung aller Fragmnete + Top-K PDFs (1 PDF pro Fragment mit visualiserten Top-K Ergebnissen, K = auswählbare Anzahl)
+  3 = Batch-Visualisierung  (1 Fragment vs ALLE Referenzen mit Visualisierung und Scores)
 ```
 
 ### 3. Ergebnisse
 
 - **Modus 1:** CSV-Datei mit allen Scores + Konfusionsmatrix-PNG
-- **Modus 2:** Pro Fragment ein PDF mit Top-5 Visualisierungen
+- **Modus 2:** Pro Fragment ein PDF mit Top-K Visualisierungen
 - **Modus 3:** Ein PDF mit einem Fragment vs. allen Referenzen
 
 ## Frontend-Integration
