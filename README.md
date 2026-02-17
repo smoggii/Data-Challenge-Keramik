@@ -171,7 +171,7 @@ frag_003.svg,Drag.33
 
 - **Format:** `<polyline>` oder `<path>` Element
 - **Koordinaten:** Mindestens 100 Zeichen in `points` bzw. `d` Attribut
-- **Skalierung:** Referenzen sollten ähnliche Größenordnung haben (~200px Höhe)
+- **Skalierung:** Referenzen sollten ähnliche Größenordnung haben (~150px Höhe)
 
 ### SVG-Skalierung
 
@@ -181,7 +181,7 @@ Falls Referenzen unterschiedliche Größen haben:
 python scale_svgs.py
 ```
 
-Skaliert alle SVGs proportional auf 200px Höhe.
+Skaliert alle SVGs proportional auf 150px Höhe.
 
 ## Beispiel-Ausgabe
 
