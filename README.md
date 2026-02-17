@@ -175,13 +175,13 @@ frag_003.svg,Drag.33
 
 ### SVG-Skalierung
 
-Falls Referenzen unterschiedliche Größen haben:
+Falls neue Referenzen unterschiedliche Größen haben:
 
 ```bash
 python scale_svgs.py
 ```
 
-Skaliert alle SVGs proportional auf 150px Höhe.
+Skaliert alle SVGs proportional auf 150px Höhe. Die Referendateien im Ordner `svg_files` wurden schon mit diesem Script auf eine einheitliche Größe geändert.
 
 ## Beispiel-Ausgabe
 
@@ -206,7 +206,7 @@ Accuracy: 24.39%
 
 Jedes PDF enthält:
 - **Deckblatt:** Fragment-Name, True Class, Predicted Class, Top-5 Scores
-- **Pro Treffer eine Seite:** Overlap-Visualisierung mit Score-Details
+- **Pro Treffer eine Seite:** Overlap-Visualisierung mit Score-Details auch rechter Seite
 
 ### Modus 3 — Ein PDF für ein Fragment
 
@@ -230,30 +230,20 @@ Das Projekt durchlief 18 Iterationen (V1 – V18):
 
 ## Dateien
 
-- `keramik_FINAL_v17_KC.py` — Haupt-Skript (Klassifikator + API)
+- `keramik_svg_classifier_final.py` — Haupt-Skript (Klassifikator + API)
 - `scale_svgs.py` — Hilfsskript zum Skalieren von SVGs
-- `frontend_integration_doku.docx` — Technische Dokumentation für Frontend-Entwickler
-- `keramik_entwicklungsdokumentation.docx` — Entwicklungsgeschichte V1–V18
+- `keramik_entwicklungsdokumentation.docx` — Entwicklungsgeschichte der Backend-Lösung
 
 ## Performance
 
 - **Ladezeit (Referenzen):** ~2–5 Sekunden (einmalig beim Start)
-- **Klassifizierung (1 Fragment):** ~5–30 Sekunden (abhängig von Anzahl Referenzen)
-- **Batch (41 Fragmente × 11 Referenzen):** ~10–15 Minuten
+- **Klassifizierung (1 Fragment):** ~10–30 Sekunden (abhängig von Anzahl Referenzen)
+- **Batch (x Fragmente × 45 Referenzen):** ~10-15 Minuten oder mehrere Stunden falls alle 800 Testdaten vom Moodle-Ordner auf einmal klassifiziert werden
 
-**Optimierung:** `SCALE_STEP` von 0.05 auf 0.1 erhöhen halbiert die Laufzeit.
+**Optimierung:** `SCALE_STEP` von 0.05 auf 0.1 erhöhen halbiert die Laufzeit, ist aber wegen Einbüßen der Genauigkeit der Klassifizierung nicht zu empfehlen.
 
-## Known Issues
+## Known Issues und Zukünftige Verbesserungen
 
-- **Zwischen-den-Linien-Problem:** Bei Referenzen mit Innen- und Außenwand kann ein Fragment zwischen beiden Linien hohe Scores erzielen, obwohl es nicht auf der Form liegt. Wird durch Coverage-Score abgemildert.
-- **Breite Gefäße:** Sehr breite Referenzen (z. B. Schalen) werden schwerer korrekt klassifiziert als schlanke Gefäße.
-
-## Zukünftige Verbesserungen
-
-- Automatisches Parameter-Tuning via Grid-Search
-- Feature E (X-Überhang-Penalty) evaluieren und ggf. aktivieren
-- Ensemble-Klassifikator (V17 + V18 kombinieren)
-- GPU-Beschleunigung für große Datensätze
 
 ## Lizenz
 
@@ -261,7 +251,7 @@ MIT License
 
 ## Kontakt
 
-Bei Fragen zum Code oder zur Methodik bitte Issue im Repository erstellen.
+Bei Fragen zum Code oder zur Methodik bitte eine Mail an florian.ebner@stud.uni-frankfurt.de 
 
 ## Zitation
 
