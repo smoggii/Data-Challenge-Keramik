@@ -260,6 +260,6 @@ Falls dieses Projekt in wissenschaftlichen Arbeiten verwendet wird:
 ```
 Keramikfragment-Klassifikator (2026)
 Template-Matching für römische Keramik
-https://github.com/username/keramik-klassifikator
+https://github.com/smoggii/Data-Challenge-Keramik
 ```
 └── README.md                         # Documentation
