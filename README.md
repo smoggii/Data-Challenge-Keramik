@@ -34,6 +34,15 @@ pip install numpy scipy scikit-learn pandas matplotlib seaborn shapely
 
 ## Schnellstart
 
+### 0. Test-SVGs für die Klassifizierung vorbereiten
+
+In `test_svg_preprocessing.py` Eingabe- und Ausgabeordner setzen. Danach:
+```bash
+python test_svg_preprocessing.py
+```
+Hilfsskript um Test-SVGs von Bestandteilen zu befreien die für die Klassifizierung keine Rolle spielen. Dieses Skript muss vor der Klassifizierung durchgeführt werden, damit diese ohne Probleme ausgeführt werden kann.
+Danach 
+
 ### 1. Ordnerstruktur vorbereiten
 
 ```
@@ -42,7 +51,7 @@ projekt/
 │   ├── Drag.33.svg
 │   ├── NB15.svg
 │   └── Lud.SSa.svg
-├── testdaten/           # SVG-Dateien der zu klassifizierenden Fragmente, also die Daten aus dem Moodle-Ordner
+├── testdaten/           # SVG-Dateien der zu klassifizierenden Fragmente, also die Daten aus dem Moodle-Ordner welche danach mit test_svg_preprocessing.py bereinigt wurden.
 │   ├── frag_001.svg
 │   ├── frag_002.svg
 │   └── ...
