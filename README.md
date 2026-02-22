@@ -216,17 +216,7 @@ Ein Fragment wird gegen alle Referenzen visualisiert:
 
 ## Entwicklungsgeschichte
 
-Das Projekt durchlief 18 Iterationen (V1 – V18):
-
-- **V1–V8:** Feature-Engineering (Hu-Momente, Fourier, Krümmung) → gescheitert (0–5% Accuracy)
-- **V9:** Paradigmenwechsel zu Template-Matching, bidirektionaler Kontur-Score
-- **V11–V13:** IoU-Einführung, Alignment-Fixes
-- **V15:** Y-Streifen Coverage (nur relevanter Höhenbereich)
-- **V17:** Symmetrischer Y-Streifen IoU + Y-Gewichtung (24.3% Accuracy)
-- **V17+KC:** Kontur-Coverage Score (Threshold relativ zur Fragmentgröße)
-- **V18:** Pre-Scale X-Shift, kein Early Stopping, Bug-Fixes
-
-**Vollständige Entwicklungsdokumentation:** Siehe `keramik_entwicklungsdokumentation.docx`
+**Vollständige Entwicklungsdokumentation:** Siehe `keramik_doku.odt`
 
 ## Dateien
 
