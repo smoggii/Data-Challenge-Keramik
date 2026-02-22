@@ -18,7 +18,6 @@ Dieses Projekt klassifiziert Querschnitte von Keramikfragmenten durch Vergleich 
 - **Drei Score-Komponenten:** Kontur-Score, Kontur-Coverage, Flächen-Overlap
 - **Y-gewichteter Coverage-Score** (Gefäßrand zählt mehr als unterer Bereich)
 - **Visualisierung** als PDF (einzeln oder Batch)
-- **Frontend-API** für einfache Integration in Web-Anwendungen
 
 ## Installation
 
