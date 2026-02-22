@@ -114,7 +114,7 @@ results = api.classify_all(ground_truth_csv="ground_truth.csv")
 
 ## Konfiguration
 
-Alle Parameter befinden sich am Anfang der Datei:
+Alle Parameter befinden sich am Anfang der Datei `keramik_svg_classifier_final.py`:
 
 ```python
 # Score-Gewichte (Summe = 1.0)
@@ -162,7 +162,7 @@ SCALE_STEP  = 0.1
 
 ## Ground Truth Format
 
-Für Genauigkeitsmessung wird eine CSV-Datei benötigt:
+Für Genauigkeitsmessung wird eine CSV-Datei wie `ground_truth_template.csv` benötigt:
 
 ```csv
 filename,true_class
@@ -190,7 +190,7 @@ python scale_svgs.py
 
 Skaliert alle SVGs proportional auf 150px Höhe. Die Referendateien im Ordner `svg_files` wurden schon mit diesem Script auf eine einheitliche Größe geändert.
 
-## Beispiel-Ausgabe
+## Beispiel-Ausgabe von `keramik_svg_classifier_final.py`
 
 ### Modus 1 — Terminal
 
