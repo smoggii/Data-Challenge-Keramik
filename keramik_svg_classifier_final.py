@@ -49,12 +49,12 @@ COVERAGE_WEIGHT = 0.4
 #   Höhe=90px, REL=0.08 → Threshold=7.2px
 # 0.05 = streng  |  0.08 = Standard  |  0.15 = großzügig
 # ← HIER ANPASSEN:
+# AUFPASSEN!!! wird weiter unten nicht benutzt und durch einen statischen wert ersetzt
 KONTUR_THRESHOLD_REL = 0.08
 
 SCALE_START = 1.0
 SCALE_MAX = 4.0
 SCALE_STEP = 0.05
-# PATIENCE entfernt: Scale-Up laeuft immer bis SCALE_MAX durch
 
 # ===========================================================================
 
@@ -264,9 +264,8 @@ class TemplateMatchingClassifier:
 
         # ── Pre-Scale X-Shift: einmalig VOR dem ersten Scale-Up ─────────
         # Testet PRE_XSHIFT_STEPS Positionen im Bereich ±PRE_XSHIFT_RANGE px.
-        # Kriterium: kombinierter Coverage-Score (KC + Flaechenanteil).
-        # Der beste Startoffset wird fuer die gesamte Scale-Up-Schleife
-        # verwendet, danach wird nicht mehr geshiftet.
+        # Kriterium: kombinierter Coverage-Score (KC + Coverage scores).
+        # Der beste Startoffset wird fuer die gesamte Scale-Up-Schleife verwendet, danach wird nicht mehr geshiftet.
         if PRE_XSHIFT_ENABLED:
             x_candidates = np.linspace(
                 -PRE_XSHIFT_RANGE, PRE_XSHIFT_RANGE, PRE_XSHIFT_STEPS)
@@ -1177,4 +1176,5 @@ class ClassifierAPI:
         plt.close(fig)
         buf.seek(0)
         return base64.b64encode(buf.read()).decode('utf-8')
+
 
