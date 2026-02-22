@@ -1,13 +1,3 @@
-#!/usr/bin/env python3
-"""
-TEMPLATE-MATCHING V17  (+ Kontur-Coverage Score)
-
-NEU gegenüber originalem V17:
-  _kontur_coverage_score: Anteil Ref-Konturpunkte nah am Fragment
-    Threshold = Fragment-Höhe × KONTUR_THRESHOLD_REL (skaliert mit Größe)
-  Drei Score-Komponenten: CONTOUR + KONTUR_COV + COVERAGE
-"""
-
 import io
 import base64
 import numpy as np
@@ -1187,3 +1177,4 @@ class ClassifierAPI:
         plt.close(fig)
         buf.seek(0)
         return base64.b64encode(buf.read()).decode('utf-8')
+
