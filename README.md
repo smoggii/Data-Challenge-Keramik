@@ -42,7 +42,7 @@ projekt/
 │   ├── Drag.33.svg
 │   ├── NB15.svg
 │   └── Lud.SSa.svg
-├── testdaten/           # SVG-Dateien der zu klassifizierenden Fragmente
+├── testdaten/           # SVG-Dateien der zu klassifizierenden Fragmente, also die Daten aus dem Moodle-Ordner
 │   ├── frag_001.svg
 │   ├── frag_002.svg
 │   └── ...
@@ -221,7 +221,8 @@ Ein Fragment wird gegen alle Referenzen visualisiert:
 
 - `keramik_svg_classifier_final.py` — Haupt-Skript (Klassifikator + API)
 - `scale_svgs.py` — Hilfsskript zum Skalieren von SVGs
-- `keramik_entwicklungsdokumentation.docx` — Entwicklungsgeschichte der Backend-Lösung
+- `keramik_doku.odt` — Entwicklungsgeschichte der Backend-Lösung
+- `test_svg_preprocessing.py` — Hilfsskript um Test-SVGs von Bestandteilen zu befreien die für die Klassifizierung keine Rolle spielen
 
 ## Performance
 
@@ -230,8 +231,6 @@ Ein Fragment wird gegen alle Referenzen visualisiert:
 - **Batch (x Fragmente × 45 Referenzen):** ~10-15 Minuten oder mehrere Stunden falls alle 800 Testdaten vom Moodle-Ordner auf einmal klassifiziert werden
 
 **Optimierung:** `SCALE_STEP` von 0.05 auf 0.1 erhöhen halbiert die Laufzeit, ist aber wegen Einbüßen der Genauigkeit der Klassifizierung nicht zu empfehlen.
-
-## Known Issues und Zukünftige Verbesserungen
 
 
 ## Lizenz
