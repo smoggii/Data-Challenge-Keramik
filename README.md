@@ -41,7 +41,6 @@ In `test_svg_preprocessing.py` Eingabe- und Ausgabeordner setzen. Danach:
 python test_svg_preprocessing.py
 ```
 Hilfsskript um Test-SVGs von Bestandteilen zu befreien die für die Klassifizierung keine Rolle spielen. Dieses Skript muss vor der Klassifizierung durchgeführt werden, damit diese ohne Probleme ausgeführt werden kann.
-Danach 
 
 ### 1. Ordnerstruktur vorbereiten
 
