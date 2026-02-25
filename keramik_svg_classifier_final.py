@@ -792,33 +792,8 @@ if __name__ == "__main__":
     main()
 
 
-# ===========================================================================
-# ██████████████████████████████████████████████████████████████████████████
-#  F R O N T E N D   A P I
-#  ─────────────────────────────────────────────────────────────────────────
-#  Alle Funktionen geben Python-Dicts zurück die direkt als JSON serialisier-
-#  bar sind (nur str / int / float / list / dict – kein numpy, kein Shapely).
-#
-#  Einstiegspunkt für das Frontend:
-#
-#    from keramik_FINAL_v17_KC import ClassifierAPI
-#
-#    api = ClassifierAPI(
-#        ref_folder    = "pfad/referenzen",
-#        test_folder   = "pfad/testdaten",
-#        output_folder = "pfad/output",
-#    )
-#
-#  Danach stehen drei Funktionen zur Verfügung:
-#
-#    api.list_fragments()          → Liste aller verfügbaren Test-SVGs
-#    api.classify_fragment(...)    → Klassifiziert 1 Fragment, gibt Scores +
-#                                    PNG-Pfad des Overlap-Bilds zurück
-#    api.classify_all(...)         → Klassifiziert alle Fragmente im Ordner
-#
-# ██████████████████████████████████████████████████████████████████████████
-# ===========================================================================
 
+#Beginn des Frontendteils
 
 class ClassifierAPI:
     """
@@ -1176,5 +1151,6 @@ class ClassifierAPI:
         plt.close(fig)
         buf.seek(0)
         return base64.b64encode(buf.read()).decode('utf-8')
+
 
 
