@@ -83,36 +83,56 @@ Modus:
 - **Modus 2:** Pro Fragment ein PDF mit Top-K Visualisierungen
 - **Modus 3:** Ein PDF mit einem Fragment vs. allen Referenzen
 
-## Frontend-Integration
+##  Frontend-Integration
 
-Die API ermöglicht einfache Integration in Web-Frontends:
+Das Frontend ist eine Single-Page-Application (SPA), die auf **Tailwind CSS** und nativem **JavaScript** basiert. Es ermöglicht eine nahtlose Interaktion mit der KI-Engine ohne Seiten-Reloads.
 
-```python
-from keramik_FINAL_v17_KC import ClassifierAPI
+### Funktionsweise der Oberfläche
 
-# Einmalig beim App-Start
-api = ClassifierAPI(
-    ref_folder    = "referenzen",
-    test_folder   = "testdaten",
-    output_folder = "output",
-    top_k         = 5
-)
+1. **Dynamisches Laden:** Beim Start ruft das Frontend über `/api/fragments` alle verfügbaren Dateien ab und befüllt die Seitenleiste.
+2. **Asynchrone Analyse:** Ein Klick auf ein Fragment triggert den `POST`-Request an `/api/classify`. Während die KI rechnet, zeigt ein Lade-Overlay den Fortschritt an.
+3. **Interaktive Visualisierung:** Die Top-5 Ergebnisse werden in einer Tabelle gerendert. Ein Klick auf eine Tabellenzeile tauscht sofort das Vorschaubild (`overlap_image`) aus.
 
-# Dropdown befüllen
-fragments = api.list_fragments()
-# → {"fragments": ["frag_001.svg", ...]}
 
-# Fragment klassifizieren
-result = api.classify_fragment("frag_001.svg")
-# → {"fragment_image": "<base64-PNG>",
-#    "top": [{"class": "Drag.33", "score": 0.78, "overlap_image": "<base64-PNG>", ...}]}
 
-# Alle Fragmente klassifizieren
-results = api.classify_all(ground_truth_csv="ground_truth.csv")
-# → {"accuracy": 0.24, "results": [...], "confusion_matrix_path": "..."}
+### Endpunkte & Datenfluss
+
+| Endpunkt | Methode | Beschreibung |
+| :--- | :--- | :--- |
+| `/api/fragments` | `GET` | Liefert eine Liste aller verfügbaren `.svg`-Dateien im Preprocessing-Ordner. |
+| `/api/classify` | `POST` | Analysiert ein Fragment. Liefert Base64-Bilder und die Top-5-Klassen zurück. |
+| `/api/download_report` | `POST` | Generiert und sendet einen PDF-Bericht (Top-5 oder Full-Scan). |
+
+### Kern-Logik (JavaScript)
+
+Das Frontend verarbeitet die JSON-Antwort der API und injiziert die Daten direkt in das DOM:
+
+```bash
+async function analyze(file) {
+    const res = await fetch(`${API}/classify`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({filename: file})
+    });
+
+    const data = await res.json();
+
+    // Anzeige der Bilder (Base64)
+    document.getElementById('fragImg').src = 'data:image/png;base64,' + data.fragment_image;
+    document.getElementById('overlapImg').src = 'data:image/png;base64,' + data.top[0].overlap_image;
+
+    // Speicherung für CSV-Export
+    lastAnalysisData = data.top;
+}
 ```
+## Endpunkte & Datenfluss
 
-**Vollständige Dokumentation:** Siehe `frontend_integration_doku.docx`
+
+| Endpunkt | Methode | Beschreibung |
+| :--- | :--- | :--- |
+| `/api/fragments` | `GET` | Liefert eine Liste aller verfügbaren `.svg`-Dateien im Preprocessing-Ordner. |
+| `/api/classify` | `POST` | Analysiert ein Fragment. Liefert Base64-Bilder und die Top-5-Klassen zurück. |
+| `/api/download_report` | `POST` | Generiert und sendet einen PDF-Bericht (Top-5 oder Full-Scan). |
 
 ## Konfiguration
 
