@@ -49,7 +49,7 @@ COVERAGE_WEIGHT = 0.4
 #   Höhe=90px, REL=0.08 → Threshold=7.2px
 # 0.05 = streng  |  0.08 = Standard  |  0.15 = großzügig
 # ← HIER ANPASSEN:
-# AUFPASSEN!!! wird weiter unten nicht benutzt und durch einen statischen wert ersetzt
+# AUFPASSEN!!! wird weiter unten nicht benutzt und durch einen statischen wert ersetzt (Zeile 187)
 KONTUR_THRESHOLD_REL = 0.08
 
 SCALE_START = 1.0
@@ -184,7 +184,8 @@ class TemplateMatchingClassifier:
         """
         from scipy.spatial.distance import cdist
         frag_height = frag[:, 1].max() - frag[:, 1].min()
-        threshold = frag_height * KONTUR_THRESHOLD_REL
+        threshold = 1
+        # threshold = frag_height * KONTUR_THRESHOLD_REL
         d_ref_to_frag = cdist(ref, frag).min(axis=1)
         abgedeckt = (d_ref_to_frag < threshold).sum()
         return abgedeckt / len(ref)
@@ -1151,6 +1152,7 @@ class ClassifierAPI:
         plt.close(fig)
         buf.seek(0)
         return base64.b64encode(buf.read()).decode('utf-8')
+
 
 
 
