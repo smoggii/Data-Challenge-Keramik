@@ -54,7 +54,7 @@ KONTUR_THRESHOLD_REL = 0.08
 
 SCALE_START = 1.0
 SCALE_MAX = 4.0
-SCALE_STEP = 0.05
+SCALE_STEP = 0.1 #geändert von 0.05, verbessert Laufzeit ohne accuracy zu verschlechtern
 
 # ===========================================================================
 
@@ -1152,6 +1152,7 @@ class ClassifierAPI:
         plt.close(fig)
         buf.seek(0)
         return base64.b64encode(buf.read()).decode('utf-8')
+
 
 
 
