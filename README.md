@@ -29,7 +29,7 @@ Dieses Projekt klassifiziert Querschnitte von Keramikfragmenten durch Vergleich 
 ### Abhängigkeiten installieren
 
 ```bash
-pip install numpy scipy scikit-learn pandas matplotlib seaborn shapely
+pip install numpy scipy scikit-learn pandas matplotlib seaborn shapely flask
 ```
 
 Hinweis: Ich empfehle hierfür die Verwendung von Anaconda, da sich damit Python-Abhängigkeiten und virtuelle Umgebungen deutlich einfacher verwalten lassen. Insbesondere unter Windows ist das aus meiner Erfahrung die stabilste und komfortabelste Lösung für das Environment-Management. Der Download ist hier verfügbar: https://www.anaconda.com/download. Mit Anaconda lassen sich isolierte Environments unkompliziert erstellen, verwalten und reproduzierbar konfigurieren, was Versionskonflikte zuverlässig vermeidet. Es kann sein, dass die Installationsbefehle für die Abhängigkeiten bei Anaconda leicht unterschiedlich sind, da es bei mir schon mal vorgekommen ist, dass pip dort Probleme macht. Sollte das der Fall sein, empfehle ich das jeweilige package bei Anaconda zu suchen, so findet man die Installationsbefehle am Schnellsten.
