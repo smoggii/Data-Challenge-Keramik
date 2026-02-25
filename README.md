@@ -83,17 +83,22 @@ Modus:
 - **Modus 2:** Pro Fragment ein PDF mit Top-K Visualisierungen
 - **Modus 3:** Ein PDF mit einem Fragment vs. allen Referenzen
 
-##  Frontend-Integration
+## Frontend-Integration & Ausführung
 
 Das Frontend ist eine Single-Page-Application (SPA), die auf **Tailwind CSS** und nativem **JavaScript** basiert. Es ermöglicht eine nahtlose Interaktion mit der KI-Engine ohne Seiten-Reloads.
+
+### Struktur & Startvorgang
+
+Das gesamte System wird über das Backend gesteuert:
+* **Zentraler Startpunkt:** `app.py` (Flask-Server). Durch das Ausführen von `python app.py` wird sowohl die API als auch das Frontend gestartet.
+* **Frontend-Datei:** `index.html`. Diese Datei enthält das HTML-Gerüst, die Styles (CSS) und die JavaScript-Logik. Sie wird vom Flask-Server automatisch unter der Root-Domain `/` ausgeliefert.
+* **Keine Installation nötig:** Da das Frontend auf nativem JS und CDN-basiertem Tailwind basiert, ist keine separate Installation oder Build-Pipeline für das User-Interface erforderlich.
 
 ### Funktionsweise der Oberfläche
 
 1. **Dynamisches Laden:** Beim Start ruft das Frontend über `/api/fragments` alle verfügbaren Dateien ab und befüllt die Seitenleiste.
 2. **Asynchrone Analyse:** Ein Klick auf ein Fragment triggert den `POST`-Request an `/api/classify`. Während die KI rechnet, zeigt ein Lade-Overlay den Fortschritt an.
 3. **Interaktive Visualisierung:** Die Top-5 Ergebnisse werden in einer Tabelle gerendert. Ein Klick auf eine Tabellenzeile tauscht sofort das Vorschaubild (`overlap_image`) aus.
-
-
 
 ### Endpunkte & Datenfluss
 
@@ -107,7 +112,7 @@ Das Frontend ist eine Single-Page-Application (SPA), die auf **Tailwind CSS** un
 
 Das Frontend verarbeitet die JSON-Antwort der API und injiziert die Daten direkt in das DOM:
 
-```bash
+```batch
 async function analyze(file) {
     const res = await fetch(`${API}/classify`, {
         method: 'POST',
@@ -125,20 +130,11 @@ async function analyze(file) {
     lastAnalysisData = data.top;
 }
 ```
-## Endpunkte & Datenfluss
-
-
-| Endpunkt | Methode | Beschreibung |
-| :--- | :--- | :--- |
-| `/api/fragments` | `GET` | Liefert eine Liste aller verfügbaren `.svg`-Dateien im Preprocessing-Ordner. |
-| `/api/classify` | `POST` | Analysiert ein Fragment. Liefert Base64-Bilder und die Top-5-Klassen zurück. |
-| `/api/download_report` | `POST` | Generiert und sendet einen PDF-Bericht (Top-5 oder Full-Scan). |
-
 ## Konfiguration
 
 Alle Parameter befinden sich am Anfang der Datei `keramik_svg_classifier_final.py`:
 
-```python
+```batch
 # Score-Gewichte (Summe = 1.0)
 CONTOUR_WEIGHT    = 0.3  # Kontur-Distanz
 KONTUR_COV_WEIGHT = 0.3  # Kontur-Coverage
