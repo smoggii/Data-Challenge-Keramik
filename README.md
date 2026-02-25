@@ -48,15 +48,15 @@ Hilfsskript um Test-SVGs die zu Klassifizieren sind von Bestandteilen zu befreie
 
 ```
 projekt/
-├── referenzen/          # SVG-Dateien vollständiger Gefäße aus dem ordner svg_files
+├── svg_files/          # SVG-Dateien vollständiger Gefäße aus dem ordner svg_files
 │   ├── Drag.33.svg
 │   ├── NB15.svg
 │   └── Lud.SSa.svg
-├── testdaten/           # SVG-Dateien der zu klassifizierenden Fragmente, also die Daten aus dem Moodle-Ordner welche danach mit test_svg_preprocessing.py bereinigt wurden.
-│   ├── frag_001.svg
-│   ├── frag_002.svg
+├── preprocessing_File/           # SVG-Dateien der zu klassifizierenden Fragmente, also die Daten aus dem Moodle-Ordner welche danach mit test_svg_preprocessing.py bereinigt wurden.
+│   ├── recons_10001.svg
+│   ├── recons_10002.svg
 │   └── ...
-└── output/              # Dateiordner für die KLassifizierungsergebnisse
+└── Output/              # Dateiordner für die KLassifizierungsergebnisse
 ```
 
 ### 2. Skript ausführen
@@ -67,9 +67,9 @@ python keramik_svg_classifier_final.py
 
 Interaktive Eingaben:
 ```
-Referenz-Ordner:  referenzen
-Test-Ordner:      testdaten
-Output-Ordner:    output
+Referenz-Ordner:  svg_files
+Test-Ordner:      preprocessing_File
+Output-Ordner:    Output
 
 Modus:
   1 = Klassifizierung aller Fragmnete (nur Ergebnis-CSV + Konfusionsmatrix)
