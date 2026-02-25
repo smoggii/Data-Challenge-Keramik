@@ -1,12 +1,3 @@
-#!/usr/bin/env python3
-"""
-SVG-Skalierung auf Zielhoehe (proportional, keine Verzerrung)
-
-Liest die Koordinaten per demselben Parser wie der Klassifikator,
-skaliert mit einheitlichem Faktor (Hoehe -> TARGET_HEIGHT px),
-und schreibt die Punkte als <polyline> zurueck.
-"""
-
 import numpy as np
 from pathlib import Path
 import xml.etree.ElementTree as ET
@@ -191,3 +182,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
