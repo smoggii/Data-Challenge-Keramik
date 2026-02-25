@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keramik KI Klassifizierung</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #1a202c; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #4a5568; border-radius: 10px; }
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(-360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 3s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white font-sans overflow-hidden">
+
+<div class="flex h-screen">
+
+    <aside class="w-80 bg-gray-800 border-r border-gray-700 flex flex-col shadow-2xl">
+        <div class="p-6 border-b border-gray-700">
+            <h1 class="text-xl font-bold text-blue-400 tracking-tight">KERAMIK <span class="text-white font-light">Analyse</span></h1>
+            <p class="text-[10px] text-gray-500 uppercase mt-1 tracking-widest">Classification Dashboard</p>
+        </div>
+
+        <div id="fragmentList" class="flex-1 overflow-y-auto p-4 space-y-2 custom-scroll">
+            <div class="text-gray-600 text-sm p-4">Lade Fragmente...</div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col relative bg-slate-900">
+
+        <header class="h-24 bg-gray-800/90 backdrop-blur-md border-b border-gray-700 flex items-center justify-between px-10 shadow-2xl z-50">
+            <div class="flex flex-col">
+                <div id="fileTitle" class="text-xl font-bold text-blue-400 tracking-wide transition-all">
+                    Bereit für Analyse
+                </div>
+                <div class="flex items-center gap-2 mt-1">
+                    <span id="statusDot" class="w-2 h-2 rounded-full bg-gray-600"></span>
+                    <span id="statusSubtext" class="text-[10px] text-gray-500 uppercase tracking-widest font-semibold">
+                        Warten auf Auswahl...
+                    </span>
+                </div>
+            </div>
+
+            <div id="actionButtons" class="hidden flex items-center gap-3">
+                <div class="flex bg-gray-900/50 p-1 rounded-xl border border-gray-700 mr-4">
+                    <button onclick="downloadCSV()" class="flex items-center gap-2 px-4 py-2 hover:bg-emerald-600/20 text-emerald-400 rounded-lg text-xs font-bold transition-all border border-transparent hover:border-emerald-600/30">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-width="2"></path></svg>
+                        CSV DATEN
+                    </button>
+                </div>
+
+                <div class="flex gap-2">
+                    <button onclick="downloadReport('top5')" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-lg text-xs font-bold shadow-lg shadow-blue-900/30 transition-all active:scale-95">
+                        PDF: TOP 5
+                    </button>
+                    <button onclick="downloadReport('full')" class="bg-gray-700 hover:bg-gray-600 text-white px-5 py-2.5 rounded-lg text-xs font-bold border border-gray-600 transition-all active:scale-95">
+                        FULL REPORT
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div id="loadingScreen" class="hidden h-full flex flex-col items-center justify-center bg-slate-900/50 backdrop-blur-sm">
+            <div class="relative">
+                <div class="w-20 h-20 border-4 border-blue-500/10 border-t-blue-500 rounded-full animate-spin"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="w-10 h-10 border-4 border-blue-400/20 border-b-blue-400 rounded-full animate-spin-slow"></div>
+                </div>
+            </div>
+            <p id="progressText" class="text-blue-400 font-bold mt-6 tracking-widest animate-pulse">KI-ENGINE ARBEITET</p>
+            <p class="text-gray-500 text-xs mt-2 italic">Vergleiche Profile mit Datenbank...</p>
+        </div>
+
+        <div id="viewport" class="flex-1 overflow-y-auto p-8 custom-scroll">
+            <div id="welcomeScreen" class="h-full flex flex-col items-center justify-center text-gray-500">
+                <svg class="w-16 h-16 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
+                <p class="text-lg font-light">Wählen Sie links ein SVG-Fragment aus, um die Analyse zu starten.</p>
+            </div>
+
+            <div id="resultsScreen" class="hidden space-y-8">
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 shadow-lg">
+                        <h3 class="text-xs font-bold text-gray-500 uppercase mb-3 tracking-widest">Eingabe Fragment</h3>
+                        <div class="bg-white rounded-lg p-2">
+                            <img id="fragImg" class="w-full h-auto min-h-[300px] object-contain" src="">
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 shadow-lg">
+                        <h3 class="text-xs font-bold text-blue-400 uppercase mb-3 tracking-widest">Bester Match (Visualisierung)</h3>
+                        <div class="bg-white rounded-lg p-2">
+                            <img id="overlapImg" class="w-full h-auto min-h-[300px] object-contain" src="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-lg overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-700/50">
+                        <tr>
+                            <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase">Rank</th>
+                            <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase">Referenz-Klasse</th>
+                            <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase">Score</th>
+                            <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase">Parameter</th>
+                        </tr>
+                        </thead>
+                        <tbody id="scoreTable" class="divide-y divide-gray-700">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    const API = 'http://localhost:5001/api';
+    let currentFile = "";
+    let lastAnalysisData = null;
+
+    async function loadFragments() {
+        try {
+            const res = await fetch(`${API}/fragments`);
+            const data = await res.json();
+            const list = document.getElementById('fragmentList');
+            list.innerHTML = "";
+
+            data.fragments.forEach(f => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left px-4 py-3 rounded-lg hover:bg-gray-700 transition-all text-sm border border-transparent hover:border-gray-600 mb-1 group flex justify-between items-center";
+                btn.innerHTML = `<span>${f}</span><span class="text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity">→</span>`;
+                btn.onclick = () => analyze(f);
+                list.appendChild(btn);
+            });
+        } catch (err) {
+            console.error("Fehler beim Laden der Fragmente:", err);
+        }
+    }
+
+    async function analyze(file) {
+        currentFile = file;
+
+        document.getElementById('fileTitle').innerText = file;
+        document.getElementById('statusSubtext').innerText = "Analyse läuft...";
+        if(document.getElementById('statusDot')) document.getElementById('statusDot').className = "w-2 h-2 rounded-full bg-blue-500 animate-pulse";
+
+        document.getElementById('actionButtons').classList.add('hidden');
+        document.getElementById('welcomeScreen').classList.add('hidden');
+        document.getElementById('resultsScreen').classList.add('hidden');
+        document.getElementById('loadingScreen').classList.remove('hidden');
+
+        try {
+            const res = await fetch(`${API}/classify`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({filename: file})
+            });
+
+            const data = await res.json();
+            lastAnalysisData = data.top;
+
+            document.getElementById('loadingScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.remove('hidden');
+            document.getElementById('actionButtons').classList.remove('hidden');
+            document.getElementById('statusSubtext').innerText = "Analyse abgeschlossen";
+            if(document.getElementById('statusDot')) document.getElementById('statusDot').className = "w-2 h-2 rounded-full bg-green-500";
+
+            document.getElementById('fragImg').src = 'data:image/png;base64,' + data.fragment_image;
+            document.getElementById('overlapImg').src = 'data:image/png;base64,' + data.top[0].overlap_image;
+
+            renderTable(data.top);
+
+        } catch (err) {
+            console.error("Analyse Fehler:", err);
+            document.getElementById('statusSubtext').innerText = "Fehler bei der Verbindung!";
+            if(document.getElementById('statusDot')) document.getElementById('statusDot').className = "w-2 h-2 rounded-full bg-red-500";
+            document.getElementById('loadingScreen').classList.add('hidden');
+        }
+    }
+
+    function renderTable(topData) {
+        const table = document.getElementById('scoreTable');
+        table.innerHTML = "";
+
+        topData.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.className = "hover:bg-blue-900/20 transition cursor-pointer group border-b border-gray-800";
+
+            tr.innerHTML = `
+                <td class="px-6 py-4 text-gray-500 font-mono text-sm">#${item.rank}</td>
+                <td class="px-6 py-4 font-bold text-blue-300 group-hover:text-blue-100">${item.class}</td>
+                <td class="px-6 py-4 font-mono text-green-400">${item.score.toFixed(4)}</td>
+                <td class="px-6 py-4 text-xs text-gray-500 italic">
+                    Maßstab: ${item.scale.toFixed(2)}
+                </td>
+            `;
+
+            tr.onclick = () => {
+                document.getElementById('overlapImg').src = 'data:image/png;base64,' + item.overlap_image;
+
+                Array.from(table.children).forEach(r => r.classList.remove('bg-blue-900/30'));
+                tr.classList.add('bg-blue-900/30');
+            };
+
+            table.appendChild(tr);
+        });
+    }
+
+    async function downloadReport(type) {
+        const btn = event.currentTarget;
+        const originalText = btn.innerText;
+        btn.innerText = "Warten...";
+        btn.disabled = true;
+
+        try {
+            const res = await fetch(`${API}/download_report`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({filename: currentFile, type: type})
+            });
+            const blob = await res.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${type}_${currentFile.replace('.svg', '.pdf')}`;
+            a.click();
+        } catch (err) {
+            alert("Download fehlgeschlagen");
+            console.error(err);
+        } finally {
+            btn.innerText = originalText;
+            btn.disabled = false;
+        }
+    }
+
+    function downloadCSV() {
+        if (!lastAnalysisData || lastAnalysisData.length === 0) {
+            alert("Keine Daten für den Export vorhanden.");
+            return;
+        }
+
+        let header = "Filename,True,Predicted,Score";
+        for (let i = 1; i <= 5; i++) {
+            header += `,Top${i}_Class,Top${i}_Score,Top${i}_Coverage`;
+        }
+        header += "\n";
+
+        const top1 = lastAnalysisData[0];
+        let row = `${currentFile},,${top1.class},${top1.score.toFixed(4)}`;
+
+        for (let i = 0; i < 5; i++) {
+            const item = lastAnalysisData[i];
+            if (item) {
+                row += `,${item.class},${item.score.toFixed(4)},${(item.kc_score || 0).toFixed(4)}`;
+            } else {
+                row += ",,,";
+            }
+        }
+        row += "\n";
+
+        const csvContent = header + row;
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+
+        link.setAttribute("href", url);
+        link.setAttribute("download", `Classification_${currentFile.replace('.svg', '')}.csv`);
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    loadFragments();
+</script>
+</body>
+</html>
