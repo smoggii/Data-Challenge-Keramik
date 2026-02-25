@@ -7,7 +7,7 @@ Automatische Klassifikation römischer Keramikfragmente mittels Template-Matchin
 
 ## Überblick
 
-Dieses Projekt klassifiziert Querschnitte von Keramikfragmenten durch Vergleich mit einer Referenzbibliothek vollständiger Gefäßquerschnitte. Der Algorithmus verwendet Template-Matching mit automatischer Skalierung, Alignment und mehreren Score-Komponenten, welche ich im Nachhinein voch genauer erklären werde.
+Dieses Projekt klassifiziert Querschnitte von Keramikfragmenten durch Vergleich mit einer Referenzbibliothek vollständiger Gefäßquerschnitte. Der Algorithmus verwendet Template-Matching mit automatischer Skalierung, Alignment und mehreren Score-Komponenten.
 
 **Typische Anwendung:** Archäologische Fundstücke (Scherben) werden digitalisiert und automatisch dem passenden Gefäßtyp zugeordnet (z. B. Drag.33, Niederbieber15, Lud.SSa).
 
