@@ -250,7 +250,6 @@ Ein Fragment wird gegen alle Referenzen visualisiert:
 - `keramik_doku.odt` — Entwicklungsgeschichte der Backend-Lösung
 - `test_svg_preprocessing.py` — Hilfsskript um Test-SVGs von Bestandteilen zu befreien die für die Klassifizierung keine Rolle spielen
 - In dem Ordner `svg_files` befinden sich die Referenz-SVG Dateien
-- In den Ordnern `images_Heising`, `images_Oelmann` und `images_typentafel` befinden sich die Screenshots der Literaturrefrenzen
 
 ## Performance
 
